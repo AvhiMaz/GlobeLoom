@@ -55,4 +55,27 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { createUser, loginUser };
+const logoutUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const token = req.cookies.accessToken;
+
+    if (token) {
+      const decodedToken: any = jwt.verify(token, config.jwtSecret as string);
+      const userId = decodedToken.sub;
+      const user = await userModel.findById(userId);
+
+      if (!user) {
+        return next(createHttpError(404, "User not found"));
+      }
+    }
+
+    res.clearCookie("accessToken");
+    res.status(200).json({ message: "Successfully logged out" });
+  } catch (error) {
+    return next(
+      createHttpError(500, "Failed to log out. Please try again later.")
+    );
+  }
+};
+
+export { createUser, loginUser, logoutUser };

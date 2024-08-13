@@ -63,4 +63,4 @@ Once the installation is complete, the project should start automatically. If it
 
 - **Backend:**
   ```bash
-  cd backend  && nodemon
+  cd backend && nodemon

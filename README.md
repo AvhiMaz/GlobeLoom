@@ -10,6 +10,9 @@ Before you start, make sure you have:
 
 - **Node.js** and **npm** installed on your machine.
 - Environment variables set up in both the **frontend** and **backend** directories.
+- **MongoDB** running and properly configured in the backend `.env` file. The connection string and other related configurations should be specified there.
+- **Postman** installed for testing the backend API endpoints.
+- **Browser Developer Tools** ready for inspecting and debugging the frontend once it’s running.
 
 ---
 
@@ -36,7 +39,9 @@ Before you start, make sure you have:
      cp env.sample.backend .env
      ```
    - Open `.env` and fill in the required values.
+   - > **Note:** Never push your `.env` files to the repository. Make sure to add `.env` to your `.gitignore` file.
 
+     
 3. **Install Dependencies:**
    - After setting up the environment variables, run the following script to install all necessary packages for both frontend and backend and start them concurrently:
      ```bash

@@ -4,6 +4,7 @@ import cors from "cors";
 import globalErrorHandler from "./middleware/globalErrorHandler";
 import userRoute from "./routes/userRoute";
 import cookieParser from "cookie-parser";
+import tripRoute from "./routes/tripRoute";
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/users/", userRoute);
+app.use("/api/trips/", tripRoute);
 
 app.use(globalErrorHandler);
 

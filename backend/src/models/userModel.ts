@@ -16,6 +16,12 @@ const userSchema = new mongoose.Schema<User>(
       type: String,
       required: true,
     },
+    trips: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Trip",
+      },
+    ],
   },
   {
     timestamps: true,

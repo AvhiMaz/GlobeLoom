@@ -7,6 +7,7 @@ const _config = {
   mongoUrl: process.env.DB_URL,
   nodeEnv: process.env.NODE_ENV,
   jwtSecret: process.env.JWT_SECRET,
+  geminiApi: process.env.GEMINI_API_KEY,
 };
 
 export const config = Object.freeze(_config);

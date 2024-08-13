@@ -3,7 +3,6 @@ import Trip from "../models/tripModel";
 import User from "../models/userModel";
 import mongoose from "mongoose";
 
-// Create a new trip
 const createTrip = async (req: Request, res: Response) => {
   const { userId, name, startDate, endDate, itinerary } = req.body;
 
@@ -35,7 +34,6 @@ const createTrip = async (req: Request, res: Response) => {
   }
 };
 
-// Get all trips for a user
 const getTripsByUser = async (req: Request, res: Response) => {
   const { userId } = req.params;
 
@@ -54,7 +52,6 @@ const getTripsByUser = async (req: Request, res: Response) => {
   }
 };
 
-// Get a single trip by its ID
 const getTripById = async (req: Request, res: Response) => {
   const { tripId } = req.params;
 
@@ -71,7 +68,6 @@ const getTripById = async (req: Request, res: Response) => {
   }
 };
 
-// Update a trip by its ID
 const updateTrip = async (req: Request, res: Response) => {
   const { tripId } = req.params;
   const { name, startDate, endDate, itinerary } = req.body;
@@ -93,7 +89,6 @@ const updateTrip = async (req: Request, res: Response) => {
   }
 };
 
-// Delete a trip by its ID
 const deleteTrip = async (req: Request, res: Response) => {
   const { tripId } = req.params;
 

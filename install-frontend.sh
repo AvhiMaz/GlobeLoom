@@ -2,6 +2,6 @@
 
     echo "Installing frontend dependencies..."
     cd frontend || exit
-    npm install
+    bun install
     echo "Starting frontend..."
-    npm run dev
+    bun dev

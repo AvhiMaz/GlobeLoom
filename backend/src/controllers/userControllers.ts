@@ -29,4 +29,30 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export default createUser;
+const loginUser = async (req: Request, res: Response, next: NextFunction) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return next(createHttpError(400, "All fields are required"));
+  }
+
+  try {
+    const user = await userModel.findOne({ email });
+
+    if (!user) {
+      return next(createHttpError(401, "Invalid credentials"));
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return next(createHttpError(401, "Invalid credentials"));
+    }
+
+    const token = jwt.sign({ id: user._id }, config.jwtSecret as string);
+    res.status(200).json({ accessToken: token });
+  } catch (error) {
+    return next(createHttpError(500, "failed to login"));
+  }
+};
+
+export { createUser, loginUser };

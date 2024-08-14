@@ -1,46 +1,8 @@
-import { EarthIcon } from "lucide-react";
 import React from "react";
 
 const LandingPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 text-white">
-      <header className="bg-transparent p-6">
-        <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-4xl font-extrabold tracking-tight flex items-center space-x-2">
-            <EarthIcon className="h-9 w-9 animate-spin" />
-            <span>GlobeLoom</span>
-          </h1>
-          <nav>
-            <ul className="flex space-x-8 text-lg font-medium">
-              <li>
-                <a
-                  href="#features"
-                  className="hover:text-gray-300 transition duration-300"
-                >
-                  Features
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#about"
-                  className="hover:text-gray-300 transition duration-300"
-                >
-                  About
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#contact"
-                  className="hover:text-gray-300 transition duration-300"
-                >
-                  Contact
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </header>
-
       <main className="w-full container mx-auto p-6">
         <section className="text-center my-20">
           <h2 className="text-5xl font-extrabold mb-6">
@@ -125,7 +87,6 @@ const LandingPage: React.FC = () => {
           </p>
         </section>
       </main>
-
       <footer className="bg-gray-900 text-gray-400 p-6 text-center">
         <p>&copy; 2024 GlobeLoom. All rights reserved.</p>
       </footer>

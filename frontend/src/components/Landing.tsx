@@ -27,7 +27,7 @@ const LandingPage: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             <div className="bg-white text-gray-900 p-8 rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
               <img
-                src="/images/trip-planner.jpg"
+                src="trip-planner.jpg"
                 alt="Trip Planner"
                 className="rounded-md mb-4"
               />
@@ -38,7 +38,7 @@ const LandingPage: React.FC = () => {
             </div>
             <div className="bg-white text-gray-900 p-8 rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
               <img
-                src="/images/accommodation-finder.jpg"
+                src="accomodation.jpg"
                 alt="Accommodation Finder"
                 className="rounded-md mb-4"
               />
@@ -49,7 +49,7 @@ const LandingPage: React.FC = () => {
             </div>
             <div className="bg-white text-gray-900 p-8 rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
               <img
-                src="/images/transportation-guide.jpg"
+                src="transport.jpg"
                 alt="Transportation Guide"
                 className="rounded-md mb-4"
               />

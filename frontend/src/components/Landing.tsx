@@ -5,7 +5,7 @@ const LandingPage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 text-white">
       <main className="w-full container mx-auto p-6">
         <section className="text-center my-20">
-          <h2 className="text-5xl font-extrabold mb-6">
+          <h2 className="text-4xl lg:text-6xl font-extrabold mb-6">
             Plan Your Next Adventure with GlobeLoom
           </h2>
           <p className="text-xl text-gray-200 mb-8">

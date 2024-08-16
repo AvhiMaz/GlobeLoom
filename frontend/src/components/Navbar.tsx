@@ -13,8 +13,8 @@ const Navbar: React.FC = () => {
     <nav className="sticky top-0 z-10 w-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 text-white">
       <div className="flex justify-between items-center p-6 container mx-auto">
         <div className="flex items-center font-extrabold tracking-tight text-4xl">
-          <EarthIcon className="h-9 w-9 animate-spin" />
-          <span className="text-2xl">GlobeLoom</span>
+          <EarthIcon className="h-9 w-9" />
+          <span className="text-2xl ml-2">GlobeLoom</span>
         </div>
 
         <div className="md:hidden flex items-center">

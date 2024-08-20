@@ -2,62 +2,92 @@ import { Request, Response, NextFunction } from "express";
 import axios from "axios";
 import { config } from "../config/config";
 
-const fetchHotelsByLocation = async (
+const fetchHotelsByCity = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const { latitude, longitude, checkIn, checkOut, pageNumber, currencyCode } =
-    req.body;
+  const { cityName, checkIn, checkOut, pageNumber, currencyCode } = req.body;
 
-  if (!latitude || !longitude || !checkIn || !checkOut) {
+  if (!cityName || !checkIn || !checkOut) {
     return res.status(400).json({
       status: false,
-      message:
-        "Missing required query parameters: latitude, longitude, checkIn, checkOut",
+      message: "Missing required parameters: cityName, checkIn, checkOut",
     });
   }
 
-  const options = {
+  const geocodeOptions = {
     method: "GET",
-    url: config.rapidapiurl,
+    url: config.geoCodeapiUrl,
     params: {
-      latitude: String(latitude),
-      longitude: String(longitude),
-      checkIn: String(checkIn),
-      checkOut: String(checkOut),
-      pageNumber: pageNumber || "1",
-      currencyCode: currencyCode || "USD",
+      address: cityName,
+      language: "en",
     },
     headers: {
       "x-rapidapi-key": config.rapidapiKey,
-      "x-rapidapi-host": config.rapidapiHost,
+      "x-rapidapi-host": config.rapidapiHost2,
     },
   };
 
   try {
-    const response = await axios.request(options);
+    const geocodeResponse = await axios.request(geocodeOptions);
+    console.log("Geocode Response:", geocodeResponse.data);
 
-    if (response.data && response.data.status === true) {
+    const { results } = geocodeResponse.data;
+
+    if (!results || results.length === 0) {
+      return res.status(404).json({
+        status: false,
+        message: "City not found",
+      });
+    }
+
+    const { location } = results[0];
+    const { lat, lng } = location;
+
+    const hotelOptions = {
+      method: "GET",
+      url: config.bookingdotcomapiurl,
+      params: {
+        latitude: lat,
+        longitude: lng,
+        checkIn: String(checkIn),
+        checkOut: String(checkOut),
+        pageNumber: pageNumber || "1",
+        currencyCode: currencyCode || "USD",
+      },
+      headers: {
+        "x-rapidapi-key": config.rapidapiKey,
+        "x-rapidapi-host": config.rapidapiHost,
+      },
+    };
+
+    const hotelResponse = await axios.request(hotelOptions);
+    console.log("Hotel Response:", hotelResponse.data);
+
+    if (hotelResponse.data && hotelResponse.data.status === true) {
       res.status(200).json({
         status: true,
         message: "Success",
         timestamp: Date.now(),
-        data: response.data,
+        data: hotelResponse.data,
       });
     } else {
       res.status(400).json({
         status: false,
         message: "Invalid response format or validation errors",
-        data: response.data,
+        data: hotelResponse.data,
       });
     }
   } catch (error: any) {
-    console.error("Error fetching hotels:", error.message);
+    console.error(
+      "Error fetching data:",
+      error.response?.data || error.message
+    );
     res
       .status(500)
-      .json({ message: "Error fetching hotels", error: error.message });
+      .json({ message: "Error fetching data", error: error.message });
   }
 };
 
-export default { fetchHotelsByLocation };
+export default { fetchHotelsByCity };

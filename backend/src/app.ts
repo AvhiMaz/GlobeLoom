@@ -5,6 +5,7 @@ import globalErrorHandler from "./middleware/globalErrorHandler";
 import userRoute from "./routes/userRoute";
 import cookieParser from "cookie-parser";
 import tripRoute from "./routes/tripRoute";
+import hotelRoutes from "./routes/hotelRoute";
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/users/", userRoute);
 app.use("/api/trips/", tripRoute);
+app.use("/api/hotels", hotelRoutes);
 
 app.use(globalErrorHandler);
 

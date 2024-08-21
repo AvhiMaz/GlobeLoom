@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { EarthIcon } from "lucide-react";
-import React from "react";
 
-const Navbar: React.FC = () => {
+export default function Navbar() {
   const [showMenu, setShowMenu] = useState(false);
 
   const toggleMenu = () => {
@@ -105,6 +104,4 @@ const Navbar: React.FC = () => {
       </div>
     </nav>
   );
-};
-
-export default Navbar;
+}

@@ -1,6 +1,4 @@
-import React from "react";
-
-const LandingPage: React.FC = () => {
+export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 text-white">
       <main className="w-full container mx-auto p-6">
@@ -92,6 +90,4 @@ const LandingPage: React.FC = () => {
       </footer>
     </div>
   );
-};
-
-export default LandingPage;
+}

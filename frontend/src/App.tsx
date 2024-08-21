@@ -1,16 +1,11 @@
-import "./App.css";
-import LandingPage from "./components/Landing";
 import Navbar from "./components/Navbar";
+import LandingPage from "./components/Landing";
 
-function App() {
+export default function Home() {
   return (
-    <>
-      <div>
-        <Navbar />
-        <LandingPage />
-      </div>
-    </>
+    <div>
+      <Navbar />
+      <LandingPage />
+    </div>
   );
 }
-
-export default App;

@@ -1,8 +1,16 @@
+import ShinyButton from "./ShinyButton";
+
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 text-white">
       <main className="w-full container mx-auto p-6">
         <section className="text-center my-20">
+          <div className="mb-6">
+            <ShinyButton
+              className="rounded-full"
+              text=" An opensource project"
+            ></ShinyButton>
+          </div>
           <h2 className="text-4xl lg:text-6xl font-extrabold mb-6">
             Plan Your Next Adventure with GlobeLoom
           </h2>
@@ -10,10 +18,7 @@ export default function LandingPage() {
             Discover amazing places, book the best accommodations, and create
             unforgettable memories.
           </p>
-          <a
-            href="#features"
-            className="bg-white text-blue-600 px-6 py-3 rounded-full font-bold text-lg shadow-lg hover:bg-gray-100 transition duration-300"
-          >
+          <a className="bg-white text-blue-600 px-6 py-3 rounded-full font-bold text-lg shadow-lg hover:bg-gray-100 transition duration-300">
             Explore Features
           </a>
         </section>

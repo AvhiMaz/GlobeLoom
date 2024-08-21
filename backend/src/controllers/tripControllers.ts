@@ -1,44 +1,54 @@
 import { NextFunction, Request, Response } from "express";
-import Trip from "../models/tripModel";
 import User from "../models/userModel";
+import Trip from "../models/tripModel";
 import mongoose from "mongoose";
 import { config } from "../config/config";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const createTrip = async (req: Request, res: Response, next: NextFunction) => {
-  const { userId, name, startDate, endDate, itinerary } = req.body;
+  const { userId, name, startDate, endDate, budget } = req.body;
+
+  if (!name || !startDate || !endDate || !budget) {
+    return res.status(400).json({
+      message:
+        "Missing required parameters: userId, name, startDate, endDate, budget",
+    });
+  }
 
   try {
+    // Initialize the AI model
     const genAI = new GoogleGenerativeAI(config.geminiApi as string);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    // const prompt = `Create a travel itinerary for a trip to ${name} from ${startDate} to ${endDate}. The trip should include the following itinerary: ${itinerary}.`;
-    const prompt = `Create a detailed travel itinerary for a trip titled "My Vacation" from 2024-09-01 to 2024-09-10. The user is interested in a relaxing beach vacation in Bali, focusing on hiking, beaches, and local food. Provide recommendations for activities, destinations, and accommodations within a moderate budget.;
-`;
+    // Create a prompt based on the trip name, start date, and end date
+    const prompt = `Create a detailed travel itinerary for a trip to ${name} from ${startDate} to ${endDate} in ${budget}`;
+
+    // Generate the itinerary from the AI model
     const result = await model.generateContent(prompt);
     const response = result.response;
-    const text = response.text();
+    const text = await response.text();
 
     if (config.nodeEnv === "development") {
       console.log(text);
     }
 
+    // Find the user
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
+    // Create a new trip with the AI-generated itinerary
     const newTrip = new Trip({
       user: new mongoose.Types.ObjectId(userId),
       name,
       startDate,
       endDate,
-      itinerary,
       aiGeneratedContent: text,
     });
 
+    // Save the new trip and associate it with the user
     const savedTrip = await newTrip.save();
-
     user.trips.push(savedTrip._id.toString());
     await user.save();
 

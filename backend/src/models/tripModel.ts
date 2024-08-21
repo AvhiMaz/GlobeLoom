@@ -20,10 +20,24 @@ const tripSchema = new mongoose.Schema<Trip>(
       type: Date,
       required: true,
     },
-    destinations: [
+    aiGeneratedContent: {
+      type: String,
+    },
+    itinerary: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Destination",
+        day: {
+          type: Number,
+        },
+        activities: [
+          {
+            time: {
+              type: String,
+            },
+            description: {
+              type: String,
+            },
+          },
+        ],
       },
     ],
   },

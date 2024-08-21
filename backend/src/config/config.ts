@@ -12,7 +12,8 @@ const _config = {
   rapidapiHost: process.env.RAPIDAPI_HOST,
   rapidapiHost2: process.env.RAPIDAPI_HOST2,
   bookingdotcomapiurl: process.env.BOOKING_DOT_COM_RAPIDAPI_URL,
-  geoCodeapiUrl: process.env.GEOCODE_RAPIDAPI_URL
+  geoCodeapiUrl: process.env.GEOCODE_RAPIDAPI_URL,
+  flightapiUrl: process.env.SEARCH_RAPIDAPI_URL,
 };
 
 export const config = Object.freeze(_config);

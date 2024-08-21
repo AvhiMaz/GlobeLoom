@@ -6,6 +6,7 @@ import userRoute from "./routes/userRoute";
 import cookieParser from "cookie-parser";
 import tripRoute from "./routes/tripRoute";
 import hotelRoutes from "./routes/hotelRoute";
+import flightRouter from "./routes/flightRoute";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.get("/", (req, res) => {
 app.use("/api/users/", userRoute);
 app.use("/api/trips/", tripRoute);
 app.use("/api/hotels", hotelRoutes);
+app.use("/api", flightRouter);
 
 app.use(globalErrorHandler);
 

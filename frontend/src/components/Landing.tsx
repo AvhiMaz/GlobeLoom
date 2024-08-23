@@ -1,6 +1,27 @@
+import { useState } from "react";
 import ShinyButton from "./ShinyButton";
+import { Loader } from "lucide-react";
 
 export default function LandingPage() {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleButtonClick = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      window.location.href = "/dashboard/trips";
+    }, 1000);
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 text-white flex items-center justify-center">
+        <div className="text-center">
+          <Loader className="spin text-white" />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 text-white">
       <main className="w-full container mx-auto p-6">
@@ -8,7 +29,7 @@ export default function LandingPage() {
           <div className="mb-6">
             <ShinyButton
               className="rounded-full"
-              text=" An opensource project"
+              text="An opensource project"
             ></ShinyButton>
           </div>
           <h2 className="text-4xl lg:text-6xl font-extrabold mb-6">
@@ -18,8 +39,11 @@ export default function LandingPage() {
             Discover amazing places, book the best accommodations, and create
             unforgettable memories.
           </p>
-          <a className="bg-white text-blue-600 px-6 py-3 rounded-full font-bold text-lg shadow-lg hover:bg-gray-100 transition duration-300">
-            Explore Features
+          <a
+            onClick={handleButtonClick}
+            className="bg-white text-blue-600 px-6 py-3 rounded-full font-bold text-lg shadow-lg hover:bg-gray-100 transition duration-300 cursor-pointer"
+          >
+            Begin Your Journey
           </a>
         </section>
 

@@ -12,8 +12,8 @@ import { cn } from "@/lib/utils";
 
 export default function Navbar() {
   return (
-    <nav className="sticky top-0 z-10 w-full">
-      <div className="flex justify-between items-center p-3 sm:p-6 container mx-auto">
+    <nav className="sticky top-0 z-10 w-full bg-white">
+      <div className="flex justify-between items-center p-3 sm:py-6 mx-auto">
         <div className="flex items-center font-extrabold tracking-tight">
           <EarthIcon className="w-6 h-6 min-[416px]:h-9 min-[416px]:w-9" />
           <span className="text-lg min-[416px]:text-2xl ml-2">GlobeLoom</span>

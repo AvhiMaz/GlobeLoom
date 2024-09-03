@@ -1,13 +1,12 @@
 // import LandingPage from "@/components/Landing";
+import ImageSlider from "@/components/Carousel";
 import Navbar from "@/components/Navbar";
-import { Carousel } from "@/components/ui/carousel";
 
 export default function Home() {
   return (
-    <div>
+    <div className="container max-xs:px-2">
       <Navbar />
-      <Carousel />
-      <Carousel />
+      <ImageSlider />
       {/* <LandingPage /> */}
     </div>
   );

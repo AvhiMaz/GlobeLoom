@@ -1,107 +1,107 @@
-import { useState } from "react";
-import { EarthIcon } from "lucide-react";
+import { EarthIcon, Menu } from "lucide-react";
+import { Button } from "./ui/button";
+
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetFooter,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
 
 export default function Navbar() {
-  const [showMenu, setShowMenu] = useState(false);
-
-  const toggleMenu = () => {
-    setShowMenu(!showMenu);
-  };
-
   return (
-    <nav className="sticky top-0 z-10 w-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 text-white">
-      <div className="flex justify-between items-center p-6 container mx-auto">
-        <div className="flex items-center font-extrabold tracking-tight text-4xl">
-          <EarthIcon className="h-9 w-9" />
-          <span className="text-2xl ml-2">GlobeLoom</span>
-        </div>
-
-        <div className="md:hidden flex items-center">
-          <button
-            onClick={toggleMenu}
-            className="block text-gray-100 focus:outline-none mt-[5px]"
-          >
-            <svg
-              className="h-7 w-7 fill-current"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-            >
-              {showMenu ? (
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M19 7H5v2h14V7zM5 11h14v2H5v-2zm14 4H5v2h14v-2z"
-                />
-              ) : (
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h16v2H4v-2z"
-                />
-              )}
-            </svg>
-          </button>
-        </div>
-
-        {/* Collapsed menu for mobile */}
-        <div
-          className={`${
-            showMenu ? "block" : "hidden"
-          } md:hidden absolute top-16 left-0 w-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 text-white`}
-        >
-          <ul className="flex flex-col items-center gap-4 p-4">
-            <li>
-              <a
-                href="#features"
-                onClick={toggleMenu}
-                className="hover:text-gray-300 transition duration-300"
-              >
-                Features
-              </a>
-            </li>
-            <li>
-              <a
-                href="#about"
-                onClick={toggleMenu}
-                className="hover:text-gray-300 transition duration-300"
-              >
-                About
-              </a>
-            </li>
-            <li>
-              <a
-                href="#contact"
-                onClick={toggleMenu}
-                className="hover:text-gray-300 transition duration-300"
-              >
-                Contact
-              </a>
-            </li>
-          </ul>
+    <nav className="sticky top-0 z-10 w-full">
+      <div className="flex justify-between items-center p-3 sm:p-6 container mx-auto">
+        <div className="flex items-center font-extrabold tracking-tight">
+          <EarthIcon className="w-6 h-6 min-[416px]:h-9 min-[416px]:w-9" />
+          <span className="text-lg min-[416px]:text-2xl ml-2">GlobeLoom</span>
         </div>
 
         {/* Menu items for larger screens */}
-        <div className="hidden md:flex space-x-8 text-lg font-medium">
-          <a
-            href="#features"
-            className="hover:text-gray-300 transition duration-300"
-          >
-            Features
-          </a>
-          <a
-            href="#about"
-            className="hover:text-gray-300 transition duration-300"
-          >
-            About
-          </a>
-          <a
-            href="#contact"
-            className="hover:text-gray-300 transition duration-300"
-          >
-            Contact
-          </a>
+        <div className="hidden md:flex space-x-8">
+          <NavLink title="Features" href="#features" />
+          <NavLink title="About" href="#about" />
+          <NavLink title="Contact" href="#contact" />
+        </div>
+
+        <div className="hidden md:flex">
+          <BookTripBtn />
+        </div>
+
+        <div className="md:hidden flex items-center">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="sm">
+                <Menu />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="top">
+              <div className="grid gap-4 py-4">
+                <ul className="flex flex-col items-center gap-4 p-4">
+                  <li>
+                    <SheetClose asChild>
+                      <NavLink
+                        title="Features"
+                        href="#features"
+                        className="text-lg"
+                      />
+                    </SheetClose>
+                  </li>
+                  <li>
+                    <SheetClose asChild>
+                      <NavLink
+                        title="About"
+                        href="#about"
+                        className="text-lg"
+                      />
+                    </SheetClose>
+                  </li>
+                  <li>
+                    <SheetClose asChild>
+                      <NavLink
+                        title="Contact"
+                        href="#contact"
+                        className="text-lg"
+                      />
+                    </SheetClose>
+                  </li>
+                </ul>
+              </div>
+              <SheetFooter className="flex items-center justify-center sm:justify-center">
+                <SheetClose asChild>
+                  <BookTripBtn />
+                </SheetClose>
+              </SheetFooter>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </nav>
   );
 }
+
+const BookTripBtn = () => {
+  return (
+    <Button size="lg" className="rounded-full w-32 text-[16px]">
+      Book Trip
+    </Button>
+  );
+};
+
+type NavLinkProps = { title: string; href: string; className?: string };
+
+const NavLink = ({ title, href, className = "" }: NavLinkProps) => {
+  return (
+    <a
+      href={href}
+      className={cn(
+        "hover:text-black/75 transition duration-300 text-xl font-normal",
+        className
+      )}
+    >
+      {title}
+    </a>
+  );
+};

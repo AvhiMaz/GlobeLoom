@@ -78,6 +78,10 @@ module.exports = {
         xs: "475px",
         ...defaultTheme.screens,
       },
+      backgroundImage: {
+        hero: "url('sky.jpg')",
+        shape: "url('shape.svg')",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

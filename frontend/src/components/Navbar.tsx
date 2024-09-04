@@ -9,6 +9,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import BookTripBtn from "./BookTripBtn";
 
 export default function Navbar() {
   return (
@@ -27,7 +28,7 @@ export default function Navbar() {
         </div>
 
         <div className="hidden md:flex">
-          <BookTripBtn />
+          <BookTripBtn text="Book Trip" />
         </div>
 
         <div className="md:hidden flex items-center">
@@ -71,7 +72,7 @@ export default function Navbar() {
               </div>
               <SheetFooter className="flex items-center justify-center sm:justify-center">
                 <SheetClose asChild>
-                  <BookTripBtn />
+                  <BookTripBtn text="Book Trip" />
                 </SheetClose>
               </SheetFooter>
             </SheetContent>
@@ -81,14 +82,6 @@ export default function Navbar() {
     </nav>
   );
 }
-
-const BookTripBtn = () => {
-  return (
-    <Button size="lg" className="rounded-full w-32 text-[16px]">
-      Book Trip
-    </Button>
-  );
-};
 
 type NavLinkProps = { title: string; href: string; className?: string };
 

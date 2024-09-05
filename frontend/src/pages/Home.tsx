@@ -1,4 +1,3 @@
-// import LandingPage from "@/components/Landing";
 import ImageSlider from "@/components/Carousel";
 import Hero from "@/components/Hero";
 import LastSection from "@/components/LastSection";
@@ -11,7 +10,6 @@ export default function Home() {
       <Hero />
       <ImageSlider />
       <LastSection />
-      {/* <LandingPage /> */}
     </div>
   );
 }

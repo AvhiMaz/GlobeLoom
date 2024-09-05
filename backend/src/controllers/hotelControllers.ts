@@ -31,8 +31,6 @@ const fetchHotelsByCity = async (
 
   try {
     const geocodeResponse = await axios.request(geocodeOptions);
-    console.log("Geocode Response:", geocodeResponse.data);
-
     const { results } = geocodeResponse.data;
 
     if (!results || results.length === 0) {
@@ -63,14 +61,26 @@ const fetchHotelsByCity = async (
     };
 
     const hotelResponse = await axios.request(hotelOptions);
-    console.log("Hotel Response:", hotelResponse.data);
 
     if (hotelResponse.data && hotelResponse.data.status === true) {
+      const filteredData = hotelResponse.data.data.data.map((hotel: any) => ({
+        id: hotel.id,
+        title: hotel.title,
+        location: hotel.secondaryInfo,
+        rating: hotel.bubbleRating?.rating,
+        reviewCount: hotel.bubbleRating?.count,
+        imageUrls: hotel.cardPhotos.map((photo: any) =>
+          photo.sizes.urlTemplate
+            .replace("{width}", "500")
+            .replace("{height}", "300")
+        ),
+      }));
+
       res.status(200).json({
         status: true,
         message: "Success",
         timestamp: Date.now(),
-        data: hotelResponse.data,
+        data: filteredData,
       });
     } else {
       res.status(400).json({

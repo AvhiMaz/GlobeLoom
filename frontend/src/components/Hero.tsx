@@ -7,14 +7,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 const Hero = () => {
   return (
     <div className="">
-      <div className="bg-hero w-full h-[700px] rounded-[70px] relative">
-        <div className="w-[1200px] absolute -right-[500px] bottom-32 rotate-12">
+      <div className="bg-hero w-full h-[500px] xs:h-[700px] rounded-[70px] relative">
+        <div className="hidden xs:block w-[1200px] absolute -right-[700px] sm:-right-[500px] -bottom-32 sm:bottom-32 rotate-12">
           <img src="airplane.svg" alt="airplane" className="object-contain" />
         </div>
 
-        <div className="absolute left-28 top-32 ">
+        <div className="absolute left-9 sm:left-28 top-32 ">
           <p className="pl-2">ELEVATE YOUR TRAVEL JOURNEY</p>
-          <h1 className="text-7xl font-semibold">
+          <h1 className="text-5xl sm:text-7xl font-semibold">
             Experience <br /> The Magic Of <br /> Flight!
           </h1>
 
@@ -24,7 +24,7 @@ const Hero = () => {
           />
         </div>
 
-        <div className="absolute -right-10 -bottom-[292px] bg-shape w-[500px] h-[500px] bg-contain bg-no-repeat">
+        <div className="hidden sm:block absolute -right-10 -bottom-[292px] bg-shape w-[500px] h-[500px] bg-contain bg-no-repeat">
           <div className="absolute left-52 top-6">
             <Button variant="link" className="text-lg">
               Know More <ArrowRight className="ml-4 w-5 h-5" />

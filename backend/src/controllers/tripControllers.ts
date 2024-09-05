@@ -21,7 +21,7 @@ const createTrip = async (req: Request, res: Response, next: NextFunction) => {
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     // Create a prompt based on the trip name, start date, and end date
-    const prompt = `Create a detailed travel itinerary for a trip to ${name} from ${startDate} to ${endDate} in ${budget}`;
+    const prompt = `Create a detailed travel itinerary for a trip to ${name} from ${startDate} to ${endDate} in ${budget} dont use stars for bold text or any other special characters for formatting or emojis. Include the following details: 1. A brief overview of the trip 2. The places to visit 3. The activities to do 4. The food to eat 5. The transportation to use 6. The accommodation to stay 7. The budget breakdown 8. The packing list`;
 
     // Generate the itinerary from the AI model
     const result = await model.generateContent(prompt);

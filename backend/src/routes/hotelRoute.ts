@@ -3,6 +3,6 @@ import hotelControllers from "../controllers/hotelControllers";
 
 const hotelRoutes = Router();
 
-hotelRoutes.get("/cities", hotelControllers.fetchHotelsByCity);
+hotelRoutes.post("/cities", hotelControllers.fetchHotelsByCity);
 
 export default hotelRoutes;

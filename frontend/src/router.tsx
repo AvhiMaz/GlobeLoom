@@ -3,6 +3,8 @@ import DashBoardLayout from "./layout/Dashboard";
 import Home from "./pages/Home";
 import Trip from "./pages/Trip";
 import { DatePicker } from "./pages/Date";
+import HotelsPage from "./pages/hotels";
+import FlightList from "./pages/flight";
 
 const Router = createBrowserRouter([
   {
@@ -25,11 +27,11 @@ const Router = createBrowserRouter([
       },
       {
         path: "accommodations", // Accommodations page under dashboard
-        element: <div>Accommodation Finder</div>,
+        element: <HotelsPage />,
       },
       {
         path: "transportation", // Transportation page under dashboard
-        element: <div>Transportation Guide</div>,
+        element: <FlightList />,
       },
       {
         path: "activities", // Activities page under dashboard

@@ -20,7 +20,7 @@ const HotelList: React.FC = () => {
     const fetchHotels = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:5513/api/hotels/cities",
+          "https://globeloom.onrender.com/api/hotels/cities",
           {
             cityName: "San Francisco",
             checkIn: "2024-09-10",

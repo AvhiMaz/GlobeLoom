@@ -72,3 +72,25 @@ html,
 body {
   overflow-x: hidden;
 }
+
+.arrow {
+  pointer-events: none;
+  /* display: none; */
+}
+
+.arrow__path {
+  stroke: #000;
+  fill: transparent;
+  stroke-dasharray: 4 2;
+}
+
+.arrow__head line {
+  stroke: #000;
+  stroke-width: 1px;
+}
+
+@media (max-width: 1024px) {
+  .arrow {
+    display: none;
+  }
+}

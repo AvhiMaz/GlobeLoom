@@ -5,10 +5,20 @@ import Trip from "./pages/Trip";
 import { DatePicker } from "./pages/Date";
 import HotelsPage from "./pages/hotels";
 import FlightList from "./pages/flight";
+import { SignUpPage } from "./pages/signUp";
+import { LoginPage } from "./pages/Login";
 
 const Router = createBrowserRouter([
   {
-    path: "/", // Home path
+    path: "/register",
+    element: <SignUpPage />,
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
+  {
+    path: "/",
     element: <Home />,
   },
   {

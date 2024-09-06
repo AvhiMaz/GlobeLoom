@@ -7,6 +7,12 @@ export interface TokenStore {
   removeToken: () => void;
 }
 
+export interface UserIdStoreStore {
+  userid: string;
+  setUserId: (data: string) => void;
+  removeUserId: () => void;
+}
+
 const useTokenStore = create<TokenStore>()(
   devtools(
     persist(
@@ -20,4 +26,17 @@ const useTokenStore = create<TokenStore>()(
   )
 );
 
-export default useTokenStore;
+const useUserIdStore = create<UserIdStoreStore>()(
+  devtools(
+    persist(
+      (set) => ({
+        userid: "",
+        setUserId: (data: string) => set(() => ({ userid: data })),
+        removeUserId: () => set(() => ({ userid: "" })),
+      }),
+      { name: "user-store" }
+    )
+  )
+);
+
+export { useTokenStore, useUserIdStore };

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import BookTripBtn from "./BookTripBtn";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
@@ -28,7 +29,9 @@ export default function Navbar() {
         </div>
 
         <div className="hidden md:flex">
-          <BookTripBtn text="Book Trip" />
+          <Link to="/dashboard">
+            <BookTripBtn text="Book Trip" />
+          </Link>
         </div>
 
         <div className="md:hidden flex items-center">

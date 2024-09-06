@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
+import { useUserIdStore } from "@/store";
 
 const CreateTrip: React.FC = () => {
   const [name, setName] = useState<string>("");
@@ -14,6 +15,8 @@ const CreateTrip: React.FC = () => {
   const [aiGeneratedContent, setAiGeneratedContent] = useState<string | null>(
     null
   );
+
+  const userId = useUserIdStore((state) => state.userid);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,7 +32,7 @@ const CreateTrip: React.FC = () => {
 
     try {
       const response = await axios.post("http://localhost:5513/api/trips/", {
-        userId: "66d9dc68b14f5af7be8041cb",
+        userId: userId,
         name,
         startDate,
         endDate,

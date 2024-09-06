@@ -17,13 +17,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Link, NavLink, Outlet } from "react-router-dom";
-// import Logo from "@/components/icons/Logo";
+import { Link, Navigate, NavLink, Outlet, useNavigate } from "react-router-dom";
+import { useUserIdStore } from "@/store";
+import { useEffect } from "react";
 
 const DashBoardLayout = () => {
+  const userId = useUserIdStore((state) => state.userid);
+
   //   const token = useTokenStore((state) => state.token);
   //   const removeToken = useTokenStore((state) => state.removeToken);
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   //   const handleLogout = () => {
   //     try {
@@ -39,15 +42,15 @@ const DashBoardLayout = () => {
   //     }
   //   };
 
-  //   useEffect(() => {
-  //     if (!token) {
-  //       navigate("/auth/login");
-  //     }
-  //   }, [token, navigate]);
+  useEffect(() => {
+    if (!userId) {
+      navigate("/login");
+    }
+  }, [userId, navigate]);
 
-  //   if (!token) {
-  //     return <Navigate to="/auth/login" replace />;
-  //   }
+  if (!userId) {
+    return <Navigate to="/login" replace />;
+  }
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">

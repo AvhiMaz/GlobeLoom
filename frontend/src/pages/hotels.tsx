@@ -1,5 +1,4 @@
-// src/pages/hotels.tsx
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 interface Hotel {
@@ -13,39 +12,89 @@ interface Hotel {
 
 const HotelList: React.FC = () => {
   const [hotels, setHotels] = useState<Hotel[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchHotels = async () => {
-      try {
-        const response = await axios.post(
-          "https://globeloom.onrender.com/api/hotels/cities",
-          {
-            cityName: "San Francisco",
-            checkIn: "2024-09-10",
-            checkOut: "2024-09-20",
-            pageNumber: 1,
-            currencyCode: "USD",
-          }
-        );
-        setHotels(response.data.data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // State for form inputs
+  const [city, setCity] = useState<string>("");
+  const [checkIn, setCheckIn] = useState<string>("");
+  const [checkOut, setCheckOut] = useState<string>("");
 
-    fetchHotels();
-  }, []);
+  const fetchHotels = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await axios.post(
+        "http://localhost:5513/api/hotels/cities",
+        {
+          cityName: city,
+          checkIn: checkIn,
+          checkOut: checkOut,
+          pageNumber: 1,
+          currencyCode: "USD",
+        }
+      );
+      setHotels(response.data.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  if (loading) return <div className="text-center p-4">Loading...</div>;
-  if (error) return <div className="text-center p-4 text-red-500">{error}</div>;
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (city && checkIn && checkOut) {
+      fetchHotels();
+    } else {
+      setError("Please fill in all fields.");
+    }
+  };
 
   return (
     <div className="p-4 max-w-6xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Hotel Listings</h1>
+      <h1 className="text-2xl font-bold mb-4">Find Hotels</h1>
+
+      {/* Form for user input */}
+      <form onSubmit={handleSubmit} className="mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <input
+            type="text"
+            placeholder="City"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            className="p-2 border rounded"
+          />
+          <input
+            type="date"
+            placeholder="Check-in"
+            value={checkIn}
+            onChange={(e) => setCheckIn(e.target.value)}
+            className="p-2 border rounded"
+          />
+          <input
+            type="date"
+            placeholder="Check-out"
+            value={checkOut}
+            onChange={(e) => setCheckOut(e.target.value)}
+            className="p-2 border rounded"
+          />
+        </div>
+        <div className="w-full flex items-center justify-center">
+          {" "}
+          <button
+            type="submit"
+            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            Search Hotels
+          </button>
+        </div>
+      </form>
+
+      {loading && <div className="text-center p-4">Loading...</div>}
+      {error && <div className="text-center p-4 text-red-500">{error}</div>}
+
+      {/* Hotel Listings */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {hotels.map((hotel) => (
           <div

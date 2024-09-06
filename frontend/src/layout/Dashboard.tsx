@@ -1,5 +1,5 @@
 import {
-  ActivityIcon,
+  // ActivityIcon,
   Bed,
   CircleUser,
   MapIcon,
@@ -97,7 +97,7 @@ const DashBoardLayout = () => {
                 <Plane className="h-4 w-4" />
                 Transportation Guide
               </NavLink>
-              <NavLink
+              {/* <NavLink
                 to="/dashboard/activities"
                 className={({ isActive }) => {
                   return `flex items-center gap-3 rounded-lg px-3 py-2 text-lightGray transition-all hover:text-darkBlue ${
@@ -107,7 +107,7 @@ const DashBoardLayout = () => {
               >
                 <ActivityIcon className="h-4 w-4" />
                 Activity Suggestions
-              </NavLink>
+              </NavLink> */}
             </nav>
           </div>
         </div>
@@ -163,7 +163,7 @@ const DashBoardLayout = () => {
                   <Plane className="h-4 w-4" />
                   Transportation Guide
                 </NavLink>
-                <NavLink
+                {/* <NavLink
                   to="/dashboard/activities"
                   className={({ isActive }) => {
                     return `flex items-center gap-3 rounded-lg px-3 py-2 text-lightGray transition-all hover:text-darkBlue ${
@@ -173,7 +173,7 @@ const DashBoardLayout = () => {
                 >
                   <ActivityIcon className="h-4 w-4" />
                   Activity Suggestions
-                </NavLink>
+                </NavLink> */}
               </nav>
             </SheetContent>
           </Sheet>

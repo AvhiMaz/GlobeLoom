@@ -1,5 +1,5 @@
 import conf from "@/config/config";
-import useTokenStore from "@/store";
+import { useTokenStore } from "@/store";
 import axios from "axios";
 
 // Create an axios instance with default configuration
@@ -26,34 +26,41 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-export const fetchHotelsByCity = async (
-  cityName: string,
-  checkIn: string,
-  checkOut: string,
-  pageNumber = "1",
-  currencyCode = "USD"
-) => {
+export const login = async (data: { email: string; password: string }) => {
   try {
-    console.log("Request Parameters:", {
-      cityName,
-      checkIn,
-      checkOut,
-      pageNumber,
-      currencyCode,
-    }); // Log parameters
-    const response = await api.get("/api/hotels/cities", {
-      params: {
-        cityName,
-        checkIn,
-        checkOut,
-        pageNumber,
-        currencyCode,
-      },
-    });
-    console.log(response.data); // Log the successful response
+    const response = await api.post("/api/users/login", data);
     return response.data;
   } catch (error) {
-    console.log(error);
+    if (axios.isAxiosError(error) && error.response) {
+      throw error.response.data;
+    }
+    throw error;
+  }
+};
+
+export const logout = async () => {
+  try {
+    await api.post("/api/users/logout");
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw error.response.data;
+    }
+    throw error;
+  }
+};
+
+export const register = async (data: {
+  name: string;
+  email: string;
+  password: string;
+}) => {
+  try {
+    const response = await api.post("/api/users/register", data);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw error.response.data;
+    }
     throw error;
   }
 };

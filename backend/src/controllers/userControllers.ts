@@ -21,9 +21,11 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
       password: hashedPassword,
     });
 
-    const token = jwt.sign({ id: newUser._id }, config.jwtSecret as string);
+    const token = jwt.sign({ id: newUser._id }, config.jwtSecret as string, {
+      expiresIn: "7d",
+    });
 
-    res.status(201).json({ accessToken: token });
+    res.status(201).json({ accessToken: token, user: newUser._id });
   } catch (error) {
     return next(createHttpError(500, "failed to create user"));
   }
@@ -48,8 +50,10 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
       return next(createHttpError(401, "Invalid credentials"));
     }
 
-    const token = jwt.sign({ id: user._id }, config.jwtSecret as string);
-    res.status(200).json({ accessToken: token });
+    const token = jwt.sign({ id: user._id }, config.jwtSecret as string, {
+      expiresIn: "7d",
+    });
+    res.status(200).json({ accessToken: token, user: user._id });
   } catch (error) {
     return next(createHttpError(500, "failed to login"));
   }

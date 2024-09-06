@@ -3,7 +3,7 @@ import { Button } from "./ui/button";
 
 const LastSection = () => {
   return (
-    <div className="grid grid-cols-12">
+    <div className="grid grid-cols-12 py-20">
       <div className="col-span-12 md:col-span-3 justify-self-center">
         <img
           src="beach.jpg"

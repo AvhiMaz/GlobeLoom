@@ -51,7 +51,7 @@ const CarouselItemList = [
 
 const ImageSlider = () => {
   return (
-    <div>
+    <div className="py-20">
       <div className="py-4 max-xs:max-w-[230px] flex flex-col items-start gap-y-3 mb-4">
         <h3 className="text-2xl sm:text-4xl font-semibold">
           Popular Destination

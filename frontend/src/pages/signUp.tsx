@@ -43,7 +43,7 @@ export function SignUpPage() {
   const mutation = useMutation<RegisterResponse, RegisterError, RegisterParams>(
     {
       mutationFn: register,
-      onSuccess: (response) => {
+      onSuccess: (response: RegisterResponse) => {
         console.log(response);
 
         setToken(response.accessToken);
@@ -53,7 +53,7 @@ export function SignUpPage() {
         }
         navigate("/dashboard");
       },
-      onError: (error) => {
+      onError: (error: RegisterError) => {
         if (config.isDevelopment) {
           console.log("Error:", error);
         }

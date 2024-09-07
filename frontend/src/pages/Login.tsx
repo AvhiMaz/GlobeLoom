@@ -40,7 +40,7 @@ export function LoginPage() {
 
   const mutation = useMutation<LoginResponse, LoginError, LoginParams>({
     mutationFn: login,
-    onSuccess: (response) => {
+    onSuccess: (response: LoginResponse) => {
       console.log(response);
 
       setToken(response.accessToken);
@@ -50,7 +50,7 @@ export function LoginPage() {
       }
       navigate("/dashboard");
     },
-    onError: (error) => {
+    onError: (error: LoginError) => {
       if (config.isDevelopment) {
         console.log("Error:", error);
       }

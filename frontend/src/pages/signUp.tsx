@@ -15,6 +15,21 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 
+interface RegisterParams {
+  email: string;
+  password: string;
+  name: string;
+}
+
+interface RegisterResponse {
+  accessToken: string;
+  user: string;
+}
+
+interface RegisterError {
+  message: string;
+}
+
 export function SignUpPage() {
   const navigate = useNavigate();
 
@@ -25,44 +40,32 @@ export function SignUpPage() {
   const passwordRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
 
-  //   useEffect(() => {
-  //     const urlParams = new URLSearchParams(window.location.search);
-  //     const token = urlParams.get("token");
-  //     if (token) {
-  //       setToken(token);
-  //       if (config.isDevelopment) {
-  //         console.log("Login successful");
-  //         console.log("Redirecting to dashboard with token", token);
-  //       }
-  //       navigate("/dashboard");
-  //     }
-  //   }, [navigate, setToken]);
-  //   mutation
-  const mutation = useMutation({
-    mutationFn: register,
-    onSuccess: (response) => {
-      console.log(response);
+  const mutation = useMutation<RegisterResponse, RegisterError, RegisterParams>(
+    {
+      mutationFn: register,
+      onSuccess: (response) => {
+        console.log(response);
 
-      setToken(response.accessToken);
-      setUserId(response.user);
-      if (config.isDevelopment) {
-        console.log("Login successful", response.accessToken);
-      }
-      navigate("/dashboard");
-    },
-    onError: (error) => {
-      if (config.isDevelopment) {
-        console.log("Error:", error);
-      }
-    },
-  });
+        setToken(response.accessToken);
+        setUserId(response.user);
+        if (config.isDevelopment) {
+          console.log("Login successful", response.accessToken);
+        }
+        navigate("/dashboard");
+      },
+      onError: (error) => {
+        if (config.isDevelopment) {
+          console.log("Error:", error);
+        }
+      },
+    }
+  );
 
   const handleSignUpSubmit = () => {
     const email = emailRef.current?.value;
     const password = passwordRef.current?.value;
     const name = nameRef.current?.value;
 
-    //make server call
     if (!name || !email || !password) {
       return alert("Please enter email and password");
     }
@@ -74,9 +77,9 @@ export function SignUpPage() {
     <section className="flex items-center justify-center h-screen mx-4">
       <Card className="mx-auto max-w-sm">
         <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardTitle className="text-2xl">Sign Up</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Create a new account, enter the credentials below
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -119,9 +122,9 @@ export function SignUpPage() {
             </Button>
           </div>
           <div className="mt-4 text-center text-sm">
-            Don&apos;t have an account?{" "}
-            <Link to="/auth/register" className="underline">
-              Sign up
+            Already have an account?{" "}
+            <Link to="/login" className="underline">
+              Login
             </Link>
           </div>
         </CardContent>

@@ -15,6 +15,20 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 
+interface LoginParams {
+  email: string;
+  password: string;
+}
+
+interface LoginResponse {
+  accessToken: string;
+  user: string;
+}
+
+interface LoginError {
+  message: string;
+}
+
 export function LoginPage() {
   const navigate = useNavigate();
 
@@ -24,20 +38,7 @@ export function LoginPage() {
   const passwordRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
 
-  //   useEffect(() => {
-  //     const urlParams = new URLSearchParams(window.location.search);
-  //     const token = urlParams.get("token");
-  //     if (token) {
-  //       setToken(token);
-  //       if (config.isDevelopment) {
-  //         console.log("Login successful");
-  //         console.log("Redirecting to dashboard with token", token);
-  //       }
-  //       navigate("/dashboard");
-  //     }
-  //   }, [navigate, setToken]);
-  //   mutation
-  const mutation = useMutation({
+  const mutation = useMutation<LoginResponse, LoginError, LoginParams>({
     mutationFn: login,
     onSuccess: (response) => {
       console.log(response);
@@ -60,7 +61,6 @@ export function LoginPage() {
     const email = emailRef.current?.value;
     const password = passwordRef.current?.value;
 
-    //make server call
     if (!email || !password) {
       return alert("Please enter email and password");
     }
@@ -108,7 +108,7 @@ export function LoginPage() {
           </div>
           <div className="mt-4 text-center text-sm">
             Don&apos;t have an account?{" "}
-            <Link to="/auth/register" className="underline">
+            <Link to="/register" className="underline">
               Sign up
             </Link>
           </div>

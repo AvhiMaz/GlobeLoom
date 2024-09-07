@@ -1,5 +1,19 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
 interface Hotel {
   id: string;
@@ -10,26 +24,52 @@ interface Hotel {
   imageUrls: string[];
 }
 
+const formSchema = z.object({
+  city: z.string().min(2, {
+    message: "City name must be at least 2 characters.",
+  }),
+  startDate: z
+    .string()
+    .refine((val) => !isNaN(Date.parse(val)), {
+      message: "Invalid date format.",
+    })
+    .refine((val) => new Date(val) >= new Date(), {
+      message: "Cannot select past Dates.",
+    }),
+  endDate: z
+    .string()
+    .refine((val) => !isNaN(Date.parse(val)), {
+      message: "Invalid date format.",
+    })
+    .refine((val) => new Date(val) >= new Date(), {
+      message: "Cannot select past Dates.",
+    }), // can keep a minimum of 1 day
+});
+
 const HotelList: React.FC = () => {
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  // State for form inputs
-  const [city, setCity] = useState<string>("");
-  const [checkIn, setCheckIn] = useState<string>("");
-  const [checkOut, setCheckOut] = useState<string>("");
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      city: "",
+    },
+  });
 
-  const fetchHotels = async () => {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+
     setLoading(true);
     setError(null);
     try {
       const response = await axios.post(
         "http://localhost:5513/api/hotels/cities",
         {
-          cityName: city,
-          checkIn: checkIn,
-          checkOut: checkOut,
+          cityName: values.city,
+          checkIn: values.startDate,
+          checkOut: values.endDate,
           pageNumber: 1,
           currencyCode: "USD",
         }
@@ -40,62 +80,82 @@ const HotelList: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (city && checkIn && checkOut) {
-      fetchHotels();
-    } else {
-      setError("Please fill in all fields.");
-    }
-  };
+  }
 
   return (
-    <div className="p-4 max-w-6xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Find Hotels</h1>
-
-      {/* Form for user input */}
-      <form onSubmit={handleSubmit} className="mb-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <input
-            type="text"
-            placeholder="City"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            className="p-2 border rounded"
-          />
-          <input
-            type="date"
-            placeholder="Check-in"
-            value={checkIn}
-            onChange={(e) => setCheckIn(e.target.value)}
-            className="p-2 border rounded"
-          />
-          <input
-            type="date"
-            placeholder="Check-out"
-            value={checkOut}
-            onChange={(e) => setCheckOut(e.target.value)}
-            className="p-2 border rounded"
-          />
+    <div className="grid grid-cols-12 gap-x-4 bg-[#387780] p-4">
+      <div className="col-span-12 mb-10">
+        <h1 className="text-2xl xs:text-5xl font-semibold text-center mt-7 text-white">
+          Search your next Vacation Home!
+        </h1>
+      </div>
+      <div className="col-span-12 lg:col-span-6 flex items-center justify-center">
+        <div className="w-full max-w-xl">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="city"
+                disabled={loading}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>City</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Eg: Mumbai..." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="startDate"
+                disabled={loading}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Start Date</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="w-full"
+                        type="date"
+                        placeholder="YYYY-MM-DD"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="endDate"
+                disabled={loading}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>End Date</FormLabel>
+                    <FormControl>
+                      <Input type="date" placeholder="YYYY-MM-DD" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex items-center justify-center">
+                <Button type="submit" disabled={loading} className="w-64">
+                  {loading ? "Searching..." : "Search Hotels"}
+                </Button>
+              </div>
+            </form>
+          </Form>
         </div>
-        <div className="w-full flex items-center justify-center">
-          {" "}
-          <button
-            type="submit"
-            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-          >
-            Search Hotels
-          </button>
-        </div>
-      </form>
+        {error && <p className="text-red-500 mt-4">{error}</p>}
+      </div>
 
-      {loading && <div className="text-center p-4">Loading...</div>}
-      {error && <div className="text-center p-4 text-red-500">{error}</div>}
+      <div className="col-span-6 bg-transparent hidden lg:block">
+        <img src="/hotel.svg" alt="" />
+      </div>
 
-      {/* Hotel Listings */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div className="col-span-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {hotels.map((hotel) => (
           <div
             key={hotel.id}

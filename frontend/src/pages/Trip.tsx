@@ -115,7 +115,7 @@ const CreateTrip: React.FC = () => {
   return (
     <div className="grid grid-cols-12 gap-x-4">
       <div className="col-span-12 mb-10">
-        <h1 className="text-2xl xs:text-5xl font-semibold text-center">
+        <h1 className="text-2xl xs:text-5xl font-semibold text-center mt-7">
           Plan Your Next Trip Now!
         </h1>
       </div>

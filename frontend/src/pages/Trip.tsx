@@ -47,47 +47,16 @@ const formSchema = z.object({
 
 const CreateTrip: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  // const [error, setError] = useState<string | null>(null);
-  // const [success, setSuccess] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [aiGeneratedContent, setAiGeneratedContent] = useState<string | null>(
     null
   );
 
   const userId = useUserIdStore((state) => state.userid);
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-
-  //   setLoading(true);
-  //   setError(null);
-  //   setSuccess(null);
-
-  //   try {
-  //     const response = await axios.post("http://localhost:5513/api/trips/", {
-  //       userId: userId,
-  //       name,
-  //       startDate,
-  //       endDate,
-  //       budget,
-  //     });
-
-  //     setSuccess("Trip created successfully!");
-  //     setAiGeneratedContent(response.data.aiGeneratedContent);
-  //   } catch (err) {
-  //     setError("Failed to create trip. Please try again.");
-  //     console.error(err);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
     setLoading(true);
-    // setError(null);
-    // setSuccess(null);
 
     try {
       const response = await axios.post("http://localhost:5513/api/trips/", {
@@ -97,11 +66,9 @@ const CreateTrip: React.FC = () => {
         endDate: values.endDate,
         budget: values.budget,
       });
-
-      // setSuccess("Trip created successfully!");
       setAiGeneratedContent(response.data.aiGeneratedContent);
     } catch (err) {
-      // setError("Failed to create trip. Please try again.");
+      setError("Failed to create trip. Please try again.");
       console.error(err);
     } finally {
       setLoading(false);
@@ -121,7 +88,7 @@ const CreateTrip: React.FC = () => {
 
     processedContent = processedContent.replace(
       /\*\*(.*?)\*\*/g,
-      "<strong>$1</strong>"
+      "<h4>$1</h4>"
     );
 
     processedContent = processedContent.replace(
@@ -146,106 +113,94 @@ const CreateTrip: React.FC = () => {
   };
 
   return (
-    // <div className="flex flex-col items-center justify-center p-10 bg-gray-100 min-h-full">
-    //   <h1 className="text-2xl font-bold mb-6">Create a New Trip</h1>
-
-    //   <form
-    //     onSubmit={handleSubmit}
-    //     className="flex flex-col gap-4 w-full max-w-md bg-white p-6 border border-gray-300 rounded-lg shadow-md"
-    //   >
-    //     <Input
-    //       placeholder="Trip Name"
-    //       value={name}
-    //       onChange={(e) => setName(e.target.value)}
-    //     />
-    //     <input
-    //       type="date"
-    //       value={startDate}
-    //       onChange={(e) => setStartDate(e.target.value)}
-    //       className="p-2 border rounded-lg"
-    //     />
-    //     <input
-    //       type="date"
-    //       value={endDate}
-    //       onChange={(e) => setEndDate(e.target.value)}
-    //       className="p-2 border rounded-lg"
-    //     />
-    //     <Input
-    //       placeholder="Budget"
-    //       value={budget}
-    //       onChange={(e) => setBudget(e.target.value)}
-    //     />
-    //     <Button type="submit" disabled={loading} className="mt-4">
-    //       {loading ? "Creating Trip..." : "Create Trip"}
-    //     </Button>
-    //   </form>
-
-    //   {error && <p className="text-red-500 mt-4">{error}</p>}
-    //   {success && <p className="text-green-500 mt-4">{success}</p>}
-
-    //   {aiGeneratedContent && renderItinerary(aiGeneratedContent)}
-    // </div>
-    <div>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
-            control={form.control}
-            name="city"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>City</FormLabel>
-                <FormControl>
-                  <Input placeholder="Eg: Mumbai..." {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="startDate"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Start Date</FormLabel>
-                <FormControl>
-                  <Input type="date" placeholder="YYYY-MM-DD" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="endDate"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>End Date</FormLabel>
-                <FormControl>
-                  <Input type="date" placeholder="YYYY-MM-DD" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="budget"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Budget</FormLabel>
-                <FormControl>
-                  <Input type="number" placeholder="In INR" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit" disabled={loading}>
-            {loading ? "Creating Trip..." : "Create Trip"}
-          </Button>
-        </form>
-      </Form>
-      <div>{aiGeneratedContent && renderItinerary(aiGeneratedContent)}</div>
+    <div className="grid grid-cols-12 gap-x-4">
+      <div className="col-span-12 mb-10">
+        <h1 className="text-2xl xs:text-5xl font-semibold text-center">
+          Plan Your Next Trip Now!
+        </h1>
+      </div>
+      <div className="col-span-12 lg:col-span-6 flex items-center justify-center">
+        <div className="w-full max-w-xl">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="city"
+                disabled={loading}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>City</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Eg: Mumbai..." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="startDate"
+                disabled={loading}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Start Date</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="w-full"
+                        type="date"
+                        placeholder="YYYY-MM-DD"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="endDate"
+                disabled={loading}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>End Date</FormLabel>
+                    <FormControl>
+                      <Input type="date" placeholder="YYYY-MM-DD" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="budget"
+                disabled={loading}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Budget</FormLabel>
+                    <FormControl>
+                      <Input type="number" placeholder="In INR" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex items-center justify-center">
+                <Button type="submit" disabled={loading} className="w-64">
+                  {loading ? "Creating Trip..." : "Create Trip"}
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </div>
+        {error && <p className="text-red-500 mt-4">{error}</p>}
+      </div>
+      <div className="col-span-6 bg-map bg-contain bg-center rounded-md hidden lg:block" />
+      {aiGeneratedContent && (
+        <div className="col-span-12 my-10 xs:my-20">
+          <h1 className="text-3xl font-semibold text-center">Trip Details</h1>
+          {renderItinerary(aiGeneratedContent)}
+        </div>
+      )}
     </div>
   );
 };

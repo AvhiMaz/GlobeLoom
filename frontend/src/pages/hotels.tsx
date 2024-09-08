@@ -14,6 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import CustomCard from "@/components/CustomCard";
 
 interface Hotel {
   id: string;
@@ -83,105 +84,105 @@ const HotelList: React.FC = () => {
   }
 
   return (
-    <div className="grid grid-cols-12 gap-x-4 bg-[#387780] p-4">
-      <div className="col-span-12 mb-10">
-        <h1 className="text-2xl xs:text-5xl font-semibold text-center mt-7 text-white">
-          Search your next Vacation Home!
-        </h1>
-      </div>
-      <div className="col-span-12 lg:col-span-6 flex items-center justify-center">
-        <div className="w-full max-w-xl">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="city"
-                disabled={loading}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>City</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Eg: Mumbai..." {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="startDate"
-                disabled={loading}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Start Date</FormLabel>
-                    <FormControl>
-                      <Input
-                        className="w-full"
-                        type="date"
-                        placeholder="YYYY-MM-DD"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="endDate"
-                disabled={loading}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>End Date</FormLabel>
-                    <FormControl>
-                      <Input type="date" placeholder="YYYY-MM-DD" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="flex items-center justify-center">
-                <Button type="submit" disabled={loading} className="w-64">
-                  {loading ? "Searching..." : "Search Hotels"}
-                </Button>
-              </div>
-            </form>
-          </Form>
+    <>
+      <div className="grid grid-cols-12 gap-x-4 bg-[#387780] p-4">
+        <div className="col-span-12 mb-10 ">
+          <h1 className="text-2xl xs:text-5xl font-semibold text-center mt-7 text-white">
+            Search your next Vacation Home!
+          </h1>
         </div>
-        {error && <p className="text-red-500 mt-4">{error}</p>}
-      </div>
-
-      <div className="col-span-6 bg-transparent hidden lg:block">
-        <img src="/hotel.svg" alt="" />
-      </div>
-
-      <div className="col-span-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {hotels.map((hotel) => (
-          <div
-            key={hotel.id}
-            className="bg-white rounded-lg shadow-md overflow-hidden"
-          >
-            <img
-              src={hotel.imageUrls[0]}
-              alt={hotel.title}
-              className="w-full h-40 object-cover"
-            />
-            <div className="p-4">
-              <h2 className="text-xl font-semibold">{hotel.title}</h2>
-              <p className="text-gray-600">{hotel.location}</p>
-              <div className="flex items-center mt-2">
-                <span className="bg-yellow-500 text-white px-2 py-1 rounded-full text-sm">
-                  {hotel.rating} ★
-                </span>
-                <span className="ml-2 text-gray-600">
-                  ({hotel.reviewCount} reviews)
-                </span>
-              </div>
-            </div>
+        <div className="col-span-12 lg:col-span-6 flex items-center justify-center ">
+          <div className="w-full max-w-xl">
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-8"
+              >
+                <FormField
+                  control={form.control}
+                  name="city"
+                  disabled={loading}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>City</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Eg: Mumbai..." {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="startDate"
+                  disabled={loading}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Start Date</FormLabel>
+                      <FormControl>
+                        <Input
+                          className="w-full"
+                          type="date"
+                          placeholder="YYYY-MM-DD"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="endDate"
+                  disabled={loading}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>End Date</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="date"
+                          placeholder="YYYY-MM-DD"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div className="flex items-center justify-center">
+                  <Button type="submit" disabled={loading} className="w-64">
+                    {loading ? "Searching..." : "Search Hotels"}
+                  </Button>
+                </div>
+              </form>
+            </Form>
           </div>
-        ))}
+          {error && <p className="text-red-500 mt-4">{error}</p>}
+        </div>
+
+        <div className="col-span-6 bg-transparent hidden lg:block">
+          <img src="/hotel.svg" alt="" />
+        </div>
       </div>
-    </div>
+
+      <div className="p-4">
+        <h1 className="text-3xl font-semibold text-center pb-7">
+          Available Hotels
+        </h1>
+        <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-6">
+          {hotels.map((hotel) => (
+            <CustomCard
+              key={hotel.id}
+              img={hotel.imageUrls[0]}
+              location={hotel.location}
+              rating={hotel.rating.toString()}
+              title={hotel.title}
+              reviewCount={hotel.reviewCount.toString()}
+            />
+          ))}
+        </div>
+      </div>
+    </>
   );
 };
 

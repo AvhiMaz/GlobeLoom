@@ -5,10 +5,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Card, CardContent, CardHeader } from "./ui/card";
-import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
-import { MapPin, Star } from "lucide-react";
+import CustomCard from "./CustomCard";
 
 const CarouselItemList = [
   {
@@ -64,27 +61,12 @@ const ImageSlider = () => {
         <CarouselContent>
           {CarouselItemList.map((item, index) => (
             <CarouselItem key={index} className="sm:basis-1/2 md:basis-1/3">
-              <Card className="border-0 bg-white shadow-none">
-                <CardHeader className="p-0 pb-4">
-                  <img
-                    src={item.img}
-                    alt={item.title}
-                    className="rounded-[37px] object-contain"
-                  />
-                </CardHeader>
-                <CardContent className="flex items-center justify-between px-2 md:px-4">
-                  <div className="flex flex-col items-start justify-start gap-y-1">
-                    <h4 className="text-xl font-semibold">{item.title}</h4>
-                    <div className="flex items-center justify-start">
-                      <MapPin className="w-4 h-4 mr-1.5 text-gray-400" />
-                      <p className="text-gray-400 text-sm font-medium">
-                        {item.location}
-                      </p>
-                    </div>
-                  </div>
-                  <Rating rating={item.rating} />
-                </CardContent>
-              </Card>
+              <CustomCard
+                title={item.title}
+                img={item.img}
+                location={item.location}
+                rating={item.rating}
+              />
             </CarouselItem>
           ))}
         </CarouselContent>
@@ -95,18 +77,3 @@ const ImageSlider = () => {
   );
 };
 export default ImageSlider;
-
-const Rating = ({
-  rating,
-  className = "",
-}: {
-  rating: string;
-  className?: string;
-}) => {
-  return (
-    <Badge className={cn("py-1 bg-blue-500", className)}>
-      <Star className="w-4 h-4 mr-1.5" />
-      <span className="text-sm">{rating}</span>
-    </Badge>
-  );
-};

@@ -79,8 +79,10 @@ module.exports = {
         ...defaultTheme.screens,
       },
       backgroundImage: {
-        hero: "url('sky.jpg')",
-        shape: "url('shape.svg')",
+        hero: "url('/sky.jpg')",
+        shape: "url('/shape.svg')",
+        map: "url('/city.jpg')",
+        hotel: "url('/hotel.jpg')",
       },
     },
   },

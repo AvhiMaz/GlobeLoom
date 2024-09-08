@@ -82,6 +82,7 @@ module.exports = {
         hero: "url('/sky.jpg')",
         shape: "url('/shape.svg')",
         map: "url('/city.jpg')",
+        hotel: "url('/hotel.jpg')",
       },
     },
   },

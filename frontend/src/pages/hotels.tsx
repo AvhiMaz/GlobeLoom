@@ -60,8 +60,6 @@ const HotelList: React.FC = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-
     setLoading(true);
     setError(null);
     try {
@@ -85,14 +83,25 @@ const HotelList: React.FC = () => {
 
   return (
     <>
-      <div className="grid grid-cols-12 gap-x-4 bg-[#387780] p-4">
-        <div className="col-span-12 mb-10 ">
-          <h1 className="text-2xl xs:text-5xl font-semibold text-center mt-7 text-white">
-            Search your next Vacation Home!
-          </h1>
+      <div className="grid grid-cols-12 gap-x-4 bg-hotel bg-right bg-cover h-[600px] relative overflow-y-hidden">
+        <div className="custom-shape-divider-top-1725758504 absolute right-[220px] inset-y-0">
+          <svg
+            data-name="Layer 1"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 1200 120"
+            preserveAspectRatio="none"
+          >
+            <path
+              d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"
+              className="shape-fill"
+            ></path>
+          </svg>
         </div>
-        <div className="col-span-12 lg:col-span-6 flex items-center justify-center ">
+        <div className="col-span-12 lg:col-span-6 flex items-center justify-center relative h-[600px] bg-white p-4">
           <div className="w-full max-w-xl">
+            <h1 className="text-2xl xs:text-4xl font-semibold text-center mt-7">
+              Search your next Vacation Home!
+            </h1>
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -159,29 +168,27 @@ const HotelList: React.FC = () => {
           </div>
           {error && <p className="text-red-500 mt-4">{error}</p>}
         </div>
-
-        <div className="col-span-6 bg-transparent hidden lg:block">
-          <img src="/hotel.svg" alt="" />
-        </div>
       </div>
 
-      <div className="p-4">
-        <h1 className="text-3xl font-semibold text-center pb-7">
-          Available Hotels
-        </h1>
-        <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-6">
-          {hotels.map((hotel) => (
-            <CustomCard
-              key={hotel.id}
-              img={hotel.imageUrls[0]}
-              location={hotel.location}
-              rating={hotel.rating.toString()}
-              title={hotel.title}
-              reviewCount={hotel.reviewCount.toString()}
-            />
-          ))}
+      {hotels.length >= 1 && (
+        <div className="p-4">
+          <h1 className="text-3xl font-semibold text-center pb-7">
+            Available Hotels
+          </h1>
+          <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-6">
+            {hotels.map((hotel) => (
+              <CustomCard
+                key={hotel.id}
+                img={hotel.imageUrls[0]}
+                location={hotel.location}
+                rating={hotel.rating.toString()}
+                title={hotel.title}
+                reviewCount={hotel.reviewCount.toString()}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

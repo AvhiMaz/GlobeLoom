@@ -94,3 +94,21 @@ body {
     display: none;
   }
 }
+
+.custom-shape-divider-top-1725758504 {
+  transform: rotate(-90deg) scaleY(-1);
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.custom-shape-divider-top-1725758504 svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 90px;
+}
+
+.custom-shape-divider-top-1725758504 .shape-fill {
+  fill: #ffffff;
+}

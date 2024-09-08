@@ -119,7 +119,7 @@ const CreateTrip: React.FC = () => {
           Plan Your Next Trip Now!
         </h1>
       </div>
-      <div className="col-span-12 lg:col-span-6 flex items-center justify-center">
+      <div className="col-span-12 lg:col-span-6 flex items-center justify-center p-4">
         <div className="w-full max-w-xl">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

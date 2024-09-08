@@ -18,32 +18,38 @@ import {
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Link, Navigate, NavLink, Outlet, useNavigate } from "react-router-dom";
-import { useUserIdStore } from "@/store";
+import { useTokenStore, useUserIdStore } from "@/store";
 import { useEffect } from "react";
+import config from "@/config/config";
 
 const DashBoardLayout = () => {
   const userId = useUserIdStore((state) => state.userid);
+  const removeUserId = useUserIdStore((state) => state.removeUserId);
 
-  //   const token = useTokenStore((state) => state.token);
-  //   const removeToken = useTokenStore((state) => state.removeToken);
+  const token = useTokenStore((state) => state.token);
+  const removeToken = useTokenStore((state) => state.removeToken);
+
   const navigate = useNavigate();
 
-  //   const handleLogout = () => {
-  //     try {
-  //       removeToken();
-  //       navigate("/auth/login");
-  //       if (config.isDevelopment) {
-  //         console.log("User logged out successfully");
-  //       }
-  //     } catch (error) {
-  //       if (config.isDevelopment) {
-  //         console.error("Failed to logout:", error);
-  //       }
-  //     }
-  //   };
+  const handleLogout = () => {
+    try {
+      removeToken();
+      removeUserId();
+      // localStorage.removeItem("userid");
+      // localStorage.removeItem("token");
+      navigate("/login");
+      if (config.isDevelopment) {
+        console.log("User logged out successfully");
+      }
+    } catch (error) {
+      if (config.isDevelopment) {
+        console.error("Failed to logout:", error);
+      }
+    }
+  };
 
   useEffect(() => {
-    if (!userId) {
+    if (!userId && !token) {
       navigate("/login");
     }
   }, [userId, navigate]);
@@ -201,7 +207,9 @@ const DashBoardLayout = () => {
                   <DropdownMenuItem>Support</DropdownMenuItem>
                 </Link>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Logout</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
+                  Logout
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

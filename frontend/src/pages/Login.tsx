@@ -14,6 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/hooks/use-toast";
 
 interface LoginParams {
   email: string;
@@ -30,7 +31,9 @@ interface LoginError {
 }
 
 export function LoginPage() {
+  // const [error, setError] = useState(false);
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const setToken = useTokenStore((state) => state.setToken);
   const setUserId = useUserIdStore((state) => state.setUserId);
@@ -49,15 +52,23 @@ export function LoginPage() {
         console.log("Login successful", response.accessToken);
       }
       navigate("/dashboard/trips");
+      toast({
+        title: "Login Successful",
+      });
     },
     onError: (error: LoginError) => {
       if (config.isDevelopment) {
         console.log("Error:", error);
       }
+      toast({
+        title: "Invalid Credentials",
+        description: "Either Username or password is incorrect",
+        variant: "destructive",
+      });
     },
   });
 
-  const handleSignUpSubmit = () => {
+  const handleLoginSubmit = () => {
     const email = emailRef.current?.value;
     const password = passwordRef.current?.value;
 
@@ -69,7 +80,8 @@ export function LoginPage() {
   };
 
   return (
-    <section className="flex items-center justify-center h-screen mx-4">
+    <section className="flex flex-col items-center justify-center h-screen mx-4">
+      {/* {error && <h1 className="text-lg text-rose-500">Invalid Credentials</h1>} */}
       <Card className="mx-auto max-w-sm">
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>
@@ -98,9 +110,9 @@ export function LoginPage() {
             <Button
               type="submit"
               className="w-full"
-              onClick={handleSignUpSubmit}
+              onClick={handleLoginSubmit}
             >
-              SignUp
+              Login
             </Button>
             <Button variant="outline" className="w-full">
               Login with Google

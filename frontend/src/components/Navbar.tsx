@@ -29,7 +29,7 @@ export default function Navbar() {
         </div>
 
         <div className="hidden md:flex">
-          <Link to="/dashboard">
+          <Link to="/dashboard/trips">
             <BookTripBtn text="Book Trip" />
           </Link>
         </div>

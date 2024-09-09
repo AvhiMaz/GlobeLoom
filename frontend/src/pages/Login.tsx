@@ -48,7 +48,7 @@ export function LoginPage() {
       if (config.isDevelopment) {
         console.log("Login successful", response.accessToken);
       }
-      navigate("/dashboard");
+      navigate("/dashboard/trips");
     },
     onError: (error: LoginError) => {
       if (config.isDevelopment) {

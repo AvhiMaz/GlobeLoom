@@ -94,7 +94,7 @@ const HotelList: React.FC = () => {
           checkIn: values.startDate,
           checkOut: values.endDate,
           pageNumber: 1,
-          currencyCode: "USD",
+          currencyCode: "INR",
         }
       );
       setHotels(response.data.data);
@@ -203,11 +203,11 @@ const HotelList: React.FC = () => {
             {hotels.slice(startIndex, endIndex).map((hotel) => (
               <CustomCard
                 key={hotel.id}
-                img={hotel.imageUrls[0]}
+                img={hotel.imageUrls[1]}
                 location={hotel.location}
-                rating={hotel.rating.toString()}
+                rating={hotel?.rating?.toString()}
                 title={hotel.title}
-                reviewCount={hotel.reviewCount.toString()}
+                reviewCount={hotel?.reviewCount?.toString()}
               />
             ))}
           </div>

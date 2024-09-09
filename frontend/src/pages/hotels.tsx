@@ -23,6 +23,15 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { cn } from "@/lib/utils";
 
 interface Hotel {
   id: string;
@@ -37,22 +46,12 @@ const formSchema = z.object({
   city: z.string().min(2, {
     message: "City name must be at least 2 characters.",
   }),
-  startDate: z
-    .string()
-    .refine((val) => !isNaN(Date.parse(val)), {
-      message: "Invalid date format.",
-    })
-    .refine((val) => new Date(val) >= new Date(), {
-      message: "Cannot select past Dates.",
-    }),
-  endDate: z
-    .string()
-    .refine((val) => !isNaN(Date.parse(val)), {
-      message: "Invalid date format.",
-    })
-    .refine((val) => new Date(val) >= new Date(), {
-      message: "Cannot select past Dates.",
-    }), // can keep a minimum of 1 day
+  startDate: z.date({
+    required_error: "Start Date is required.",
+  }),
+  endDate: z.date({
+    required_error: "End Date is required.",
+  }),
 });
 
 const HotelList: React.FC = () => {
@@ -148,18 +147,38 @@ const HotelList: React.FC = () => {
                 <FormField
                   control={form.control}
                   name="startDate"
-                  disabled={loading}
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="flex flex-col">
                       <FormLabel>Start Date</FormLabel>
-                      <FormControl>
-                        <Input
-                          className="w-full"
-                          type="date"
-                          placeholder="YYYY-MM-DD"
-                          {...field}
-                        />
-                      </FormControl>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-full pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={(date) => date < new Date()}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -167,17 +186,38 @@ const HotelList: React.FC = () => {
                 <FormField
                   control={form.control}
                   name="endDate"
-                  disabled={loading}
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="flex flex-col">
                       <FormLabel>End Date</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="date"
-                          placeholder="YYYY-MM-DD"
-                          {...field}
-                        />
-                      </FormControl>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-full pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={(date) => date < new Date()}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
                       <FormMessage />
                     </FormItem>
                   )}

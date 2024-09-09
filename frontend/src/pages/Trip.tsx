@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
+import { format } from "date-fns";
 import {
   Form,
   FormControl,
@@ -17,26 +18,26 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+import { Calendar } from "@/components/ui/calendar";
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { CalendarIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+
 const formSchema = z.object({
   city: z.string().min(2, {
     message: "City name must be at least 2 characters.",
   }),
-  startDate: z
-    .string()
-    .refine((val) => !isNaN(Date.parse(val)), {
-      message: "Invalid date format.",
-    })
-    .refine((val) => new Date(val) >= new Date(), {
-      message: "Cannot select past Dates.",
-    }),
-  endDate: z
-    .string()
-    .refine((val) => !isNaN(Date.parse(val)), {
-      message: "Invalid date format.",
-    })
-    .refine((val) => new Date(val) >= new Date(), {
-      message: "Cannot select past Dates.",
-    }), // can keep a minimum of 1 day
+  startDate: z.date({
+    required_error: "Start Date is required.",
+  }),
+  endDate: z.date({
+    required_error: "End Date is required.",
+  }),
   budget: z
     .string()
     .transform((val) => Number(val))
@@ -137,21 +138,42 @@ const CreateTrip: React.FC = () => {
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="startDate"
-                disabled={loading}
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="flex flex-col">
                     <FormLabel>Start Date</FormLabel>
-                    <FormControl>
-                      <Input
-                        className="w-full"
-                        type="date"
-                        placeholder="YYYY-MM-DD"
-                        {...field}
-                      />
-                    </FormControl>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-full pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) => date < new Date()}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -159,13 +181,38 @@ const CreateTrip: React.FC = () => {
               <FormField
                 control={form.control}
                 name="endDate"
-                disabled={loading}
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="flex flex-col">
                     <FormLabel>End Date</FormLabel>
-                    <FormControl>
-                      <Input type="date" placeholder="YYYY-MM-DD" {...field} />
-                    </FormControl>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-full pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) => date < new Date()}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
                     <FormMessage />
                   </FormItem>
                 )}

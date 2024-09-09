@@ -8,24 +8,66 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
+
+import Autoplay from "embla-carousel-autoplay";
+import { useState } from "react";
+// import AutoScroll from "embla-carousel-auto-scroll";
+import Fade from "embla-carousel-fade";
 
 const CustomCard = ({
-  img,
+  images,
   title,
   location,
   rating,
   reviewCount,
 }: {
-  img: string;
+  images: string[] | string;
   title: string;
   location: string;
   rating: string;
   reviewCount?: string;
 }) => {
+  const [cardHover, setCardHover] = useState(false);
+
   return (
-    <Card className="border-0 bg-white shadow-none">
+    <Card
+      onMouseEnter={() => setCardHover(true)}
+      onMouseLeave={() => setCardHover(false)}
+      className="border-0 bg-white shadow-none hover:scale-105 transition-all"
+    >
       <CardHeader className="p-0 pb-4">
-        <img src={img} alt={title} className="rounded-[37px] object-contain" />
+        {typeof images === "string" && (
+          <img
+            src={images}
+            alt={title}
+            className="rounded-[37px] object-contain"
+          />
+        )}
+        {typeof images !== "string" && (
+          <Carousel
+            plugins={[
+              Fade(),
+              Autoplay({
+                active: cardHover,
+                delay: 1500,
+              }),
+            ]}
+            className="w-full select-none transition-all"
+          >
+            <CarouselContent>
+              {images.map((item, index) => (
+                <CarouselItem key={index} className="">
+                  <img
+                    src={item}
+                    alt="img"
+                    className="rounded-[37px] object-contain"
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+        )}
       </CardHeader>
       <CardContent className="flex items-center justify-between px-2 md:px-4">
         <div className="flex flex-col items-start justify-start gap-y-1">

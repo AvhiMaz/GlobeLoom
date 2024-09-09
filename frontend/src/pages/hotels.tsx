@@ -203,7 +203,7 @@ const HotelList: React.FC = () => {
             {hotels.slice(startIndex, endIndex).map((hotel) => (
               <CustomCard
                 key={hotel.id}
-                img={hotel.imageUrls[1]}
+                images={hotel.imageUrls}
                 location={hotel.location}
                 rating={hotel?.rating?.toString()}
                 title={hotel.title}

@@ -51,7 +51,7 @@ export function SignUpPage() {
         if (config.isDevelopment) {
           console.log("Login successful", response.accessToken);
         }
-        navigate("/dashboard");
+        navigate("/dashboard/trips");
       },
       onError: (error: RegisterError) => {
         if (config.isDevelopment) {

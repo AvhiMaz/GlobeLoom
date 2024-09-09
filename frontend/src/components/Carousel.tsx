@@ -63,7 +63,7 @@ const ImageSlider = () => {
             <CarouselItem key={index} className="sm:basis-1/2 md:basis-1/3">
               <CustomCard
                 title={item.title}
-                img={item.img}
+                images={item.img}
                 location={item.location}
                 rating={item.rating}
               />

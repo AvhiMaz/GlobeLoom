@@ -3,6 +3,7 @@ import BookTripBtn from "./BookTripBtn";
 import { Button } from "./ui/button";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -18,10 +19,12 @@ const Hero = () => {
             Experience <br /> The Magic Of <br /> Flight!
           </h1>
 
-          <BookTripBtn
-            text="Book a trip now"
-            className="bg-blue-500 w-40 mt-12 text-sm"
-          />
+          <Link to="/dashboard/trips">
+            <BookTripBtn
+              text="Book a trip now"
+              className="bg-blue-500 w-40 mt-12 text-sm"
+            />
+          </Link>
         </div>
 
         <div className="hidden sm:block absolute -right-10 -bottom-[292px] bg-shape w-[500px] h-[500px] bg-contain bg-no-repeat">

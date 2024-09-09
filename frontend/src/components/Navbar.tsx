@@ -29,8 +29,8 @@ export default function Navbar() {
         </div>
 
         <div className="hidden md:flex">
-          <Link to="/dashboard/trips">
-            <BookTripBtn text="Book Trip" />
+          <Link to="/login">
+            <BookTripBtn text="Login" />
           </Link>
         </div>
 
@@ -75,7 +75,7 @@ export default function Navbar() {
               </div>
               <SheetFooter className="flex items-center justify-center sm:justify-center">
                 <SheetClose asChild>
-                  <BookTripBtn text="Book Trip" />
+                  <BookTripBtn text="Login" />
                 </SheetClose>
               </SheetFooter>
             </SheetContent>

@@ -43,17 +43,17 @@ const PlacesSection = () => {
     <div className="absolute top-24 left-28 flex items-center justify-between">
       <div className="flex items-center justify-center">
         <Avatar className="w-16 h-16 border-4 border-white">
-          <AvatarImage src="sky.jpg" alt="place" />
+          <AvatarImage src="/manali.jpg" alt="place" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
 
         <Avatar className="w-16 h-16 border-4 border-white -ml-5">
-          <AvatarImage src="sky.jpg" alt="place" />
+          <AvatarImage src="kashmir.jpg" alt="place" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
 
         <Avatar className="w-16 h-16 border-4 border-white -ml-5">
-          <AvatarImage src="sky.jpg" alt="place" />
+          <AvatarImage src="kerala.jpg" alt="place" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
       </div>

@@ -16,6 +16,14 @@ import {
 import { Input } from "@/components/ui/input";
 import CustomCard from "@/components/CustomCard";
 
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
 interface Hotel {
   id: string;
   title: string;
@@ -51,6 +59,22 @@ const HotelList: React.FC = () => {
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
+  const totalPages = Math.ceil(hotels.length / itemsPerPage);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+
+  const handlePageChange = (pageNumber: number) => {
+    if (pageNumber > totalPages || pageNumber < 1) {
+      return;
+    }
+
+    setCurrentPage(pageNumber);
+  };
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -99,7 +123,7 @@ const HotelList: React.FC = () => {
         </div>
         <div className="col-span-12 lg:col-span-6 flex items-center justify-center relative h-[600px] bg-white p-4">
           <div className="w-full max-w-xl">
-            <h1 className="text-2xl xs:text-4xl font-semibold text-center mt-7">
+            <h1 className="text-2xl xs:text-4xl font-semibold text-center mb-7">
               Search your next Vacation Home!
             </h1>
             <Form {...form}>
@@ -176,7 +200,7 @@ const HotelList: React.FC = () => {
             Available Hotels
           </h1>
           <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-6">
-            {hotels.map((hotel) => (
+            {hotels.slice(startIndex, endIndex).map((hotel) => (
               <CustomCard
                 key={hotel.id}
                 img={hotel.imageUrls[1]}
@@ -187,6 +211,23 @@ const HotelList: React.FC = () => {
               />
             ))}
           </div>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  className="cursor-pointer select-none disabled:"
+                  onClick={() => handlePageChange(currentPage - 1)}
+                />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext
+                  aria-disabled={currentPage == totalPages}
+                  className="cursor-pointer select-none"
+                  onClick={() => handlePageChange(currentPage + 1)}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
       )}
     </>
